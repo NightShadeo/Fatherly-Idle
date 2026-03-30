@@ -89,7 +89,7 @@ $(document).ready(() => {
     const addedCost = 1.25; // Multipler how much each upgrade costs more
     const repMuscleMult = 0.64; // Rep to Muscle strength cost ratio
     const upgradePercent = 0.025; // Percentage of each each upgrade gives you
-    const levelRanks = ["Small Frank", "Big Joe", "Sam Sulek", "Urs Kalecinski", "Jay Cutler", "Ronnie Coleman"];
+    const levelRanks = ["Small Frank", "Big Joe", "Sam Sulek", "Urs Kalecinski", "Jay Cutler", "Ronnie Coleman", "BIG CHUNGUS"];
     const daysBaseCost = 30; 
     const strengthBaseCost = 120;
     const preBaseCost = 2500;
@@ -303,6 +303,9 @@ $(document).ready(() => {
                 break;
             case (totalLevel < 99):
                 userName = levelRanks[5];
+                break;
+            case (totalLevel < 120):
+                userName = levelRanks[6];
                 break;
         }
 
