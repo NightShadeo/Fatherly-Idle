@@ -1,0 +1,118 @@
+            case "daysUp":
+                daysLevel += 1;
+                daysTotalLevel = daysLevel + (daysPrest * $("#days").attr("max"));
+                daysRepsCost = (daysTotalLevel * (daysBaseCost * addedCost));
+                break;
+
+
+
+
+
+
+                    $('.action-workout-card').click(function() {
+        const actionChoice = $(this).attr("#id");
+        switch (actionChoice) {
+            case "bench-action":
+                userReps += 1;
+                let actionCard = $(this);
+
+                actionCard.addClass('expanded');
+                setTimeout(function() {
+                    actionCard.removeClass('expanded');
+                }, 80);
+
+                let floatingRep = $('<span>').addClass('reps-floating').text('+1');
+                $('#user-reps-floating').append(floatingRep);
+
+                setTimeout(function() {
+                    floatingRep.remove();
+                }, 800);
+                $("#user-reps").text(Math.round(userReps));
+                break;
+            case "squat-action":
+                userReps += 1;
+                let actionCard = $(this);
+
+                actionCard.addClass('expanded');
+                setTimeout(function() {
+                    actionCard.removeClass('expanded');
+                }, 80);
+
+                let floatingRep = $('<span>').addClass('reps-floating').text('+1');
+                $('#user-reps-floating').append(floatingRep);
+
+                setTimeout(function() {
+                    floatingRep.remove();
+                }, 800);
+                $("#user-reps").text(Math.round(userReps));
+                break;
+            
+
+
+
+
+            .workout-container{
+  position: relative;
+  z-index: 0;
+  top: -30px;
+  display: grid;
+  grid-template-columns: repeat(2, clamp(300px, 18vw, 700px));
+  grid-auto-rows: clamp(300px, 18vw, 700px);
+  gap: clamp(16px, 2vw, 32px);
+
+  width: fit-content;
+  margin: 8vh auto 0 auto;
+}
+
+.info {
+  z-index: 2;
+}
+
+.action-workout-card{
+  width: 100%;
+  height: 100%;
+  background: #44536d;
+  border-radius: 10px;
+  transition: transform 0.4s ease-in-out;
+}
+
+.action-workout-card:hover {
+  transform: scale(1.025);
+}
+
+.action-workout-card.expanded {
+  transform: scale(1.2);
+}
+
+
+
+
+
+
+clamp(16px, 2vw, 32px);
+
+    let benchCost =    [0, benchSquatCost, 0, 0, benchRepsCost];
+    let squatCost =    [0, 0, 0, squatRowCost, squatRepsCost];
+    let deadliftCost = [deadliftBenchCost, 0, 0, 0, deadliftRepsCost];
+    let rowCost =      [0, 0, rowDeadliftCost, 0, rowRepsCost];
+
+
+
+    function updateUpgradeAffordAbility() {
+
+    };
+
+
+
+
+                    <h2>Upgrade Menu</h2>
+                <div class="cheat-buttons">
+                    <button id="give-money">Give money</button>
+                    <button id="give-bench">Give bench</button>
+                    <button id="give-squat">Give squat</button>
+                    <button id="give-deadlift">Give deadlift</button>
+                    <button id="give-row">Give row</button>
+                    <button id="give-reps">Give reps</button>
+                </div>
+                    <p class="reps-count">Reps: <span id="user-reps">0</span>
+                <span id="user-reps-floating"></span></p>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Fatherly Idler</title>
+        <link rel="stylesheet" href="styles/index.css?v=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+        <header>
+            <h2>Fatherly Idler</h2>
+            <div class="user-data">
+                <p>Level: </p>
+                <p id="user-level">placeholder</p>
+                <p id="user-name">Place Holder</p>
+            </div>
+        </header>
+        <div class="container">
+            <div class="main">
+                <div class="stats">
+                    <h2>Stats</h2>
+                    <p class="game-speed"></p>
+                    <p>Bench: <span id="0">45</span>lbs</p>
+                    <p>Squat: <span id="1">45</span>lbs</p>
+                    <p>Deadlift: <span id="2">45</span>lbs</p>
+                    <p>Row: <span id="3">45</span>lbs</p>
+                </div>
+                <div class="workout-container">
+                    <div class="action-workout-back">
+                        <div class="action-workout-card" id="bench-action">
+                            <img id="BenchCard" src="Images\Bench-Press.png" alt="Bench Press Card">              
+                        </div>
+                    </div>
+                    <div class="action-workout-back">
+                        <div class="action-workout-card" id="squat-action">
+                            <img id="SquatCard" src="Images\Squat-Press.png" alt="Squat Press Card">
+                        </div>
+                    </div>
+                    <div class="action-workout-back">
+                        <div class="action-workout-card" id="deadlift-action">
+                            <img id="DeadliftCard" src="Images\Deadlift-Press.png" alt="Deadlift Press Card">
+                        </div>
+                    </div>
+                    <div class="action-workout-back">
+                        <div class="action-workout-card" id="row-action">
+                            <img id="RowCard" src="Images\Row-Press.png" alt="Row Press Card">
+                        </div>
+                    </div>
+                </div>
+                <div class="info">
+                    <!-- <h2>Main Play Area</h2> -->
+                    <p>By: Rylan Rees and Austin Durette</p>
+                </div>
+            </div>
+            <div class="sidebar">
+                <h2>Upgrade Menu</h2>
+                    <div class="cheat-menu-container">
+                        <button id="cheat-toggle">Cheats!</button>
+                        <div class="cheat-buttons">
+                            <button id="give-money">Give money</button>
+                            <button id="give-bench">Give bench</button>
+                            <button id="give-squat">Give squat</button>
+                            <button id="give-deadlift">Give deadlift</button>
+                            <button id="give-row">Give row</button>
+                            <button id="give-reps">Give reps</button>
+                        </div>
+                    </div>
+                    <p class="reps-count">Reps: <span id="user-reps">0</span>
+                <span id="user-reps-floating"></span></p>
+                <div class="upgrade" id="daysUp">
+                    <h3>Days a week</h3>
+                    <p>Increase Reps per tick</p>
+                    <p>Costs: <span class="reps-cost">-1</span> Reps</p>
+                    <progress id="days" value="1" max="7"></progress>
+                    <span id="prest">9</span>
+                </div>
+                <div class="upgrade" id="strengthUp">
+                    <h3>Strength</h3>
+                    <p>Increase Reps per Click by 2x</p>
+                    <p>Costs: <span class="reps-cost">-1</span> Reps</p>
+                    <progress id="strength" value="1" max="20"></progress>
+                    <span id="prest">9</span>
+                </div>
+                <div class="upgrade" id="preworkoutUp">
+                    <h3>Pre Workout</h3>
+                    <p>Increase your Strength gained by 100% for 200 reps</p>
+                    <p>Costs: <span class="reps-cost">-1</span> Reps</p>
+                    <progress id="preworkout" value="0" max="200" style="width: 100%;"></progress>
+                </div>
+                <div class="upgrade" id="benchUp">
+                    <h3>Bench Strength</h3>
+                    <p>Increase your Bench Strength gained by 2x</p>
+                    <p>Costs: <span class="reps-cost">-1</span> Reps <span class="muscle-cost">-1</span><span> Squat</span></p>
+                    <progress id="bench" value="0" max="20"></progress>
+                    <span id="prest">9</span>
+                </div>
+                <div class="upgrade" id="squatUp">
+                    <h3>Squat Strength</h3>
+                    <p>Increase your Squat Strength gained by 2x</p>
+                    <p>Costs: <span class="reps-cost">-1</span> Reps <span class="muscle-cost">-1</span><span> Row</span></p>
+                    <progress id="squat" value="0" max="20"></progress>
+                    <span id="prest">9</span>
+                </div>
+                <div class="upgrade" id="deadliftUp">
+                    <h3>Deadlift Strength</h3>
+                    <p>Increase your Deadlift Strength gained by 2x</p>
+                    <p>Costs: <span class="reps-cost">-1</span> Reps <span class="muscle-cost">-1</span><span> Bench</span></p>
+                    <progress id="deadlift" value="0" max="20"></progress>
+                    <span id="prest">9</span>
+                </div>
+                <div class="upgrade" id="rowUp">
+                    <h3>Row Strength</h3>
+                    <p>Increase your Row Strength gained by 2x</p>
+                    <p>Costs: <span class="reps-cost">-1</span> Reps <span class="muscle-cost">-1</span><span> Deadlift</span></p>
+                    <progress id="row" value="0" max="20"></progress>
+                    <span id="prest">9</span>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
