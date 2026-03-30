@@ -156,40 +156,36 @@ $(document).ready(() => {
     $('#cheat-toggle').click(function () {
         $('.cheat-menu-container').toggleClass('open');
     });
-            
-    $("#give-money").click(function () {
-        userReps += 100000;
-        for (let i = 0; i < userStrength.length - 1; i++) {
-            userStrength[i] += 100000;
-        }
-        userStrength[4] = userReps;
-        updateStats();
-    })
+    
+    $(".cheater-button").click(function () {
+        const cheatChoice = $(this).attr("id"); 
 
-        $("#give-bench").click(function () {
-        userStrength[0] += 100;
-        updateStats();
-    })
-
-        $("#give-squat").click(function () {
-        userStrength[1] += 100;
-        updateStats();
-    })
-
-        $("#give-deadlift").click(function () {
-        userStrength[2] += 100;
-        updateStats();
-    })
-
-        $("#give-row").click(function () {
-        userStrength[3] += 100;
-        updateStats();
-    })
-
-        $("#give-reps").click(function () {
-        userReps += 1000;
-        updateStats();
-    })
+        switch(cheatChoice) {
+            case "give-money":
+                userReps += 100000;
+                for (let i = 0; i < userStrength.length - 1; i++) {
+                    userStrength[i] += 100000;
+                }
+                userStrength[4] = userReps;
+                break;
+            case "give-bench":
+                userStrength[0] += 100;
+                break;
+            case "give-squat":
+                userStrength[1] += 100;
+                break;
+            case "give-deadlift":
+                userStrength[2] += 100;
+                break;
+            case "give-row":
+                userStrength[3] += 100;
+                break;
+            case "give-reps":
+                userReps += 1000
+                break;
+                }
+                updateStats();
+    });
 
     let totalLevel = daysTotalLevel + strengthTotalLevel + benchTotalLevel +
                 squatTotalLevel + deadliftTotalLevel + rowTotalLevel;
