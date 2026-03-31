@@ -26,7 +26,32 @@ let clickReps = defaultSettings.clickReps;
 let preCharges = defaultSettings.preCharges;
 let userStrength = [...defaultSettings.userStrength];
 
+let strengthTotalLevel;
+let strengthRepsCost;
+let daysTotalLevel;
+let daysRepsCost;
+let benchTotalLevel;
+let benchRepsCost;
+let benchSquatCost;
+let squatTotalLevel;
+let squatRepsCost;
+let squatRowCost;
+let deadliftTotalLevel;
+let deadliftRepsCost;
+let deadliftBenchCost;
+let rowTotalLevel;
+let rowRepsCost;
+let rowDeadliftCost;
+let preRepsCost;
+let strengthBonus;
+
+
 $(document).ready(() => {
+
+      //Save / load game functions
+    loadGame();
+    recalcUpgradeValues();
+    refreshScreen();
     // Any screen text or HTML modification
     function refreshScreen() {
         $("#user-name").text(userName);
@@ -71,35 +96,29 @@ $(document).ready(() => {
         $("#3").text(userStrength[3].toFixed(1));   
     };
 
+    function recalcUpgradeValues() {
+        strengthTotalLevel = strengthLevel + (strengthPrest * Number($("#strength").attr("max")));
+        daysTotalLevel = daysLevel + (daysPrest * Number($("#days").attr("max")));
+        benchTotalLevel = benchLevel + (benchPrest * Number($("#bench").attr("max")));
+        squatTotalLevel = squatLevel + (squatPrest * Number($("#squat").attr("max")));
+        deadliftTotalLevel = deadliftLevel + (deadliftPrest * Number($("#deadlift").attr("max")));
+        rowTotalLevel = rowLevel + (rowPrest * Number($("#row").attr("max")));
 
-    // Any user actions like clickable and things when the page loads
-    let strengthTotalLevel = (strengthLevel + (strengthPrest * $("#strength").attr("max")))
-    let strengthBonus = strengthTotalLevel * 0.05;
+        strengthRepsCost = strengthBaseCost * Math.pow(addedCost, strengthTotalLevel);
+        daysRepsCost = ((daysLevel + 1 + (daysPrest * Number($("#days").attr("max")))) * (daysBaseCost * addedCost));
+        preRepsCost = preBaseCost;
+        benchRepsCost = benchBaseCost * Math.pow(addedCost, benchTotalLevel);
+        benchSquatCost = (benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
 
-    let daysRepsCost = ((daysLevel + 1 + (daysPrest * $("#days").attr("max"))) * (daysBaseCost * addedCost));
-    let daysTotalLevel = daysLevel + (daysPrest * $("#days").attr("max"));
-    let daysBonus = (daysTotalLevel * 14.285) / 100;
+        squatRepsCost = squatBaseCost * Math.pow(addedCost, squatTotalLevel);
+        squatRowCost = (squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
 
-    let strengthRepsCost = strengthBaseCost * Math.pow(addedCost, strengthTotalLevel);
-    
-    let benchTotalLevel = benchLevel + (benchPrest * $("#bench").attr("max"));
-    let benchRepsCost = benchBaseCost * Math.pow(addedCost, benchTotalLevel);
-    let benchSquatCost = (benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
-    
+        deadliftRepsCost = deadliftBaseCost * Math.pow(addedCost, deadliftTotalLevel);
+        deadliftBenchCost = (deadliftTotalLevel * (deadliftBaseCost * addedCost)) * repMuscleMult;
 
-    let preRepsCost = preBaseCost;
-
-    let squatTotalLevel = squatLevel + (squatPrest * $("#squat").attr("max"));
-    let squatRepsCost = squatBaseCost * Math.pow(addedCost, squatTotalLevel);
-    let squatRowCost = (squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
-
-    let deadliftTotalLevel = deadliftLevel + (deadliftPrest * $("#deadlift").attr("max"));
-    let deadliftRepsCost = deadliftBaseCost * Math.pow(addedCost, deadliftTotalLevel);
-    let deadliftBenchCost = (deadliftTotalLevel * (deadliftBaseCost * addedCost)) * repMuscleMult;
-
-    let rowTotalLevel = rowLevel + (rowPrest * $("#row").attr("max"));
-    let rowRepsCost = rowBaseCost * Math.pow(addedCost, rowTotalLevel);
-    let rowDeadliftCost = (rowTotalLevel * (rowBaseCost * addedCost)) * repMuscleMult;
+        rowRepsCost = rowBaseCost * Math.pow(addedCost, rowTotalLevel);
+        rowDeadliftCost = (rowTotalLevel * (rowBaseCost * addedCost)) * repMuscleMult;
+    };
 
  
 
@@ -109,7 +128,7 @@ $(document).ready(() => {
         $("#1").text(userStrength[1].toFixed(1));
         $("#2").text(userStrength[2].toFixed(1));
         $("#3").text(userStrength[3].toFixed(1)); 
-    }
+    };
 
     // Any runtime logic
     function gameTick() {
@@ -128,24 +147,36 @@ $(document).ready(() => {
             preCharges -= 1;
         };
         
-        userStrength[0] += upgradePercent * (benchLevel + (benchTotalLevel));
+        userStrength[0] += 0.05 * (benchLevel + (benchTotalLevel));
         userStrength[1] += upgradePercent * (squatLevel + (squatTotalLevel * upgradePercent));
         userStrength[2] += upgradePercent * (deadliftLevel + (deadliftTotalLevel * upgradePercent));
         userStrength[3] += upgradePercent * (rowLevel + (rowTotalLevel * upgradePercent));
 
-        for (let i = 0; i < userStrength.length; i++) {
-            userStrength[i] = Math.round(userStrength[i] * 100) / 100;
-        }
+        // for (let i = 0; i < userStrength.length; i++) {
+        //     userStrength[i] = Math.round(userStrength[i] * 100) / 100;
+        // }
 
         userReps += daysTotalLevel;
-
+        console.log("Tick", userStrength[0]);
         refreshScreen();
+        updateStats();
+        console.log({
+            daysRepsCost,
+            strengthRepsCost,
+            preRepsCost,
+            benchRepsCost,
+            benchSquatCost,
+            squatRepsCost,
+            squatRowCost,
+            deadliftRepsCost,
+            deadliftBenchCost,
+            rowRepsCost,
+            rowDeadliftCost
+        });
     };
 
     
-    //Save / load game functions
-    loadGame();
-    refreshScreen();
+  
     
     $("#save-button").click(saveGame);
     $("#reset-button").click(resetSave);

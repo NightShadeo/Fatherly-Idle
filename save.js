@@ -96,4 +96,4 @@ function resetSave() {
 }
 
 
-setInterval(saveGame, 5000);
+setInterval(saveGame, 25000);
