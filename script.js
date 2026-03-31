@@ -27,6 +27,7 @@ let clickGrowth = defaultSettings.clickGrowth;
 
 let preCharges = defaultSettings.preCharges;
 let userStrength = [...defaultSettings.userStrength];
+let adminAccess = defaultSettings.adminAccess;
 
 let strengthTotalLevel;
 let strengthRepsCost;
@@ -185,10 +186,31 @@ $(document).ready(() => {
     $("#save-button").click(saveGame);
     $("#reset-button").click(resetSave);
 
+    // Cheat menu checkin admin creds.
+    // IF cheat menus is NOT open, ask for admin creds. Otherwise close the cheat menu
+    // IF its NOT open, pop up admin login window. 
 
-
+    // Then wait for a form submit to either OPEN cheat menu, or cancel.
     $('#cheat-toggle').click(function () {
-        $('.cheat-menu-container').toggleClass('open');
+    if (!$('.cheat-menu-container').hasClass('open')) {
+        $('#user-login-popup').removeClass('hidden-popup');
+    } else {
+        $('.cheat-menu-container').removeClass('open');
+    }
+    });
+
+    $('#user-login-form').submit(function (e) {
+        e.preventDefault();
+
+        if (validateUserLogin()) {
+            $('.cheat-menu-container').addClass('open');
+            $('#user-login-popup').addClass('hidden-popup');
+        }
+    });
+
+        
+    $("#cancel-login, #user-close-login").click(function () {
+        $('#user-login-popup').addClass("hidden-popup");
     });
     
     $(".menu-button").click(function () {

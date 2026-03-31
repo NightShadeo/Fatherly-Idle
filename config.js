@@ -52,5 +52,11 @@ const defaultSettings = {
     clickBase: 1,
     clickGrowth: 1.25,
     preCharges: 0,
-    userStrength: [45, 45, 45, 45, 1]
+    userStrength: [45, 45, 45, 45, 1],
+    adminAccess: false
+};
+
+const userCredentials = {
+    admin: { username: "admin", password: "adminpass" },
+    user: { username: "user", password: "password" }
 };

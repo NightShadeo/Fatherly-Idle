@@ -116,3 +116,54 @@ clamp(16px, 2vw, 32px);
                 </div>
                     <p class="reps-count">Reps: <span id="user-reps">0</span>
                 <span id="user-reps-floating"></span></p>
+
+
+
+                    $(".menu-button").click(function () {
+        const cheatChoice = $(this).attr("id"); 
+
+        switch(cheatChoice) {
+            case "give-money":
+                userReps += 100000;
+                for (let i = 0; i < userStrength.length - 1; i++) {
+                    userStrength[i] += 100000;
+                }
+                userStrength[4] = userReps;
+                break;
+            case "give-bench":
+                userStrength[0] += 100;
+                break;
+            case "give-squat":
+                userStrength[1] += 100;
+                break;
+            case "give-deadlift":
+                userStrength[2] += 100;
+                break;
+            case "give-row":
+                userStrength[3] += 100;
+                break;
+            case "give-reps":
+                userReps += 1000
+                break;
+                }
+                updateStats();
+    });
+
+
+
+            <div id="user-login-popup" class="hidden-popup">
+            <div class="login-content">
+                <h2>Login</h2>
+                <form id="user-login-form">
+                    <input type="text" id="username" placeholder="Username">
+                    <input type="password" id="password" placeholder="Password">
+                    <button type="submit" id="user-login-button">Login</button>
+                    <button type="button" id="user-close-login">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+
+
+
+        

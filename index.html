@@ -122,6 +122,36 @@
                 </div>
             </div>
         </div>
+
+
+
+        <!-- User / Password popup Box-->
+        <div id="user-login-popup" class="hidden-popup">
+            <div class="login-modal">
+                <div class="login-modal-header">
+                    <h2>User Login</h2>
+                    <button type="button" id="user-close-login" class="close-login-button">&times;</button>
+                </div>
+
+                <form id="user-login-form">
+                    <div class="user-login-body">
+                        <input type="text" id="login-username" placeholder="Username">
+                        <input type="text" id="login-password" placeholder="Password">
+                    </div>
+
+                    <div class="login-modal-footer">
+                        <button type="button" id="cancel-login" class="user-login-button cancel-button">Cancel</button>
+                        <button type="submit" id="submit-login" class="user-login-button save-button">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    
+
+
+
+
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="config.js"></script>
         <script src="script.js"></script>

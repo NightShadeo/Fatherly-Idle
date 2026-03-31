@@ -334,6 +334,127 @@ header .user-data p {
     box-shadow: 0 0 8px rgba(0, 200, 255, 0.7);
 }
 
+
+/* user login popup box style */
+.hidden-popup {
+  display: none;
+}
+
+#user-login-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+  z-index: 999;
+}
+
+#user-login-popup.hidden-popup {
+  display: none;
+}
+
+.login-modal {
+  width: min(600px, 100%);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.login-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 22px 24px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.login-modal-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.close-login-button {
+  border: none;
+  background: transparent;
+  font-size: 2rem;
+  line-height: 1;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0;
+}
+
+.close-login-button:hover {
+  color: #212529;
+}
+
+.user-login-body {
+  padding: 20px 24px;
+}
+
+.user-login-body input {
+  width: 100%;
+  padding: 12px 24px;
+  margin-bottom: 18px;
+
+  font-size: 1.2rem;
+  color: #212529;
+
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.user-login-body input:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.2);
+}
+
+.login-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding: 16px 24px;
+  border-top: 1px solid #dee2e6;
+}
+
+.user-login-button {
+  border: none;
+  border-radius: 8px;
+  padding: 11px 18px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cancel-button {
+  background: #6c757d;
+  color: white;
+}
+
+.cancel-button:hover {
+  background: #5c636a;
+}
+
+.save-button {
+  background: #0d6efd;
+  color:white;
+}
+
+.save-button:hover {
+  background: #0b5ed7;
+}
+
 /* Keyframes for the falling barbells animation */
 
 @keyframes barbellsFall {

@@ -95,5 +95,19 @@ function resetSave() {
     location.reload();
 }
 
+function validateUserLogin() {
+    let usernameInput = $('#login-username').val();
+    let passwordInput = $('#login-password').val();
+
+    if (usernameInput === userCredentials.admin.username && passwordInput === userCredentials.admin.password) {
+        adminAccess = true;
+        return true;
+    } else {
+        alert("Invalid Credentials");
+        return false;
+    }
+};
+
+
 
 setInterval(saveGame, 25000);
