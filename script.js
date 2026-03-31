@@ -22,6 +22,8 @@ let squatStatIncrease = defaultSettings.squatStatIncrease;
 let deadliftStatIncrease = defaultSettings.deadliftStatIncrease;
 let rowStatIncrease = defaultSettings.rowStatIncrease;
 let clickReps = defaultSettings.clickReps;
+let clickBase = defaultSettings.clickBase;
+let clickGrowth = defaultSettings.clickGrowth;
 
 let preCharges = defaultSettings.preCharges;
 let userStrength = [...defaultSettings.userStrength];
@@ -44,7 +46,7 @@ let rowRepsCost;
 let rowDeadliftCost;
 let preRepsCost;
 let strengthBonus;
-
+let clickUpgradeValue;
 
 $(document).ready(() => {
 
@@ -79,6 +81,7 @@ $(document).ready(() => {
         
         $("#daysUp").find(".reps-cost").text(Math.round(daysRepsCost));
         $("#strengthUp").find(".reps-cost").text(Math.round(strengthRepsCost));
+        $("#strengthUp").find(".upgrade-value").text(clickUpgradeValue);
         $("#preworkoutUp").find(".reps-cost").text(Math.round(preRepsCost));
         $("#benchUp").find(".reps-cost").text(Math.round(benchRepsCost));
         $("#squatUp").find(".reps-cost").text(Math.round(squatRepsCost));
@@ -109,6 +112,8 @@ $(document).ready(() => {
         preRepsCost = preBaseCost;
         benchRepsCost = benchBaseCost * Math.pow(addedCost, benchTotalLevel);
         benchSquatCost = (benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
+
+        clickUpgradeValue = Math.max(clickReps +1, Math.floor(clickBase * Math.pow(clickGrowth, strengthTotalLevel + 1))) - clickReps;
 
         squatRepsCost = squatBaseCost * Math.pow(addedCost, squatTotalLevel);
         squatRowCost = (squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
@@ -175,7 +180,6 @@ $(document).ready(() => {
         // });
     };
 
-    
   
     
     $("#save-button").click(saveGame);
@@ -244,7 +248,9 @@ $(document).ready(() => {
                 strengthLevel += 1;
                 strengthTotalLevel = strengthLevel + (strengthPrest * $("#strength").attr("max"));
                 strengthRepsCost = strengthRepsCost = Math.floor(strengthBaseCost * Math.pow(addedCost, strengthTotalLevel));
-                clickReps *=2;
+                clickReps = Math.max(clickReps +1, Math.floor(clickBase * Math.pow(clickGrowth, strengthTotalLevel)));
+                recalcUpgradeValues();
+                refreshScreen();
                 break;
             case "preworkoutUp":
                 if (userReps < preBaseCost) {

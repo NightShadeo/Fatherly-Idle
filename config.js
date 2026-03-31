@@ -19,7 +19,7 @@ const repMuscleMult = 0.64; // Rep to Muscle strength cost ratio
 const upgradePercent = 0.05; // Percentage of each each upgrade gives you
     
 const daysBaseCost = 30; 
-const strengthBaseCost = 120;
+const strengthBaseCost = 50;
 const preBaseCost = 2500;
 const benchBaseCost = 150;
 const squatBaseCost = 150;
@@ -49,7 +49,8 @@ const defaultSettings = {
     deadliftStatIncrease: 0.1,
     rowStatIncrease: 0.1,
     clickReps: 1,
-
+    clickBase: 1,
+    clickGrowth: 1.25,
     preCharges: 0,
     userStrength: [45, 45, 45, 45, 1]
 };
