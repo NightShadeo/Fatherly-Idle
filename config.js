@@ -16,7 +16,7 @@ const levelRanks = [
 const gameSpeed = 1; //fps
 const addedCost = 1.25; // Multipler how much each upgrade costs more
 const repMuscleMult = 0.64; // Rep to Muscle strength cost ratio
-const upgradePercent = 0.025; // Percentage of each each upgrade gives you
+const upgradePercent = 0.05; // Percentage of each each upgrade gives you
     
 const daysBaseCost = 30; 
 const strengthBaseCost = 120;

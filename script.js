@@ -147,10 +147,10 @@ $(document).ready(() => {
             preCharges -= 1;
         };
         
-        userStrength[0] += 0.05 * (benchLevel + (benchTotalLevel));
-        userStrength[1] += upgradePercent * (squatLevel + (squatTotalLevel * upgradePercent));
-        userStrength[2] += upgradePercent * (deadliftLevel + (deadliftTotalLevel * upgradePercent));
-        userStrength[3] += upgradePercent * (rowLevel + (rowTotalLevel * upgradePercent));
+        userStrength[0] += upgradePercent * (benchLevel + (benchTotalLevel));
+        userStrength[1] += upgradePercent * (squatLevel + (squatTotalLevel));
+        userStrength[2] += upgradePercent * (deadliftLevel + (deadliftTotalLevel));
+        userStrength[3] += upgradePercent * (rowLevel + (rowTotalLevel));
 
         // for (let i = 0; i < userStrength.length; i++) {
         //     userStrength[i] = Math.round(userStrength[i] * 100) / 100;
