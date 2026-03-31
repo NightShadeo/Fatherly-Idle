@@ -157,22 +157,22 @@ $(document).ready(() => {
         // }
 
         userReps += daysTotalLevel;
-        console.log("Tick", userStrength[0]);
+        // console.log("Tick", userStrength[0]);
         refreshScreen();
         updateStats();
-        console.log({
-            daysRepsCost,
-            strengthRepsCost,
-            preRepsCost,
-            benchRepsCost,
-            benchSquatCost,
-            squatRepsCost,
-            squatRowCost,
-            deadliftRepsCost,
-            deadliftBenchCost,
-            rowRepsCost,
-            rowDeadliftCost
-        });
+        // console.log({
+        //     daysRepsCost,
+        //     strengthRepsCost,
+        //     preRepsCost,
+        //     benchRepsCost,
+        //     benchSquatCost,
+        //     squatRepsCost,
+        //     squatRowCost,
+        //     deadliftRepsCost,
+        //     deadliftBenchCost,
+        //     rowRepsCost,
+        //     rowDeadliftCost
+        // });
     };
 
     
