@@ -197,7 +197,7 @@ header .user-data p {
   display: grid;
 }
 
-#cheat-toggle,
+.menu-button,
 .cheat-buttons button {
   background-color: #4a637c;  
   border: 1px solid #111;
@@ -232,7 +232,8 @@ header .user-data p {
   animation: rainbow 5s linear infinite;
 }
 
-#cheat-toggle:hover,
+
+.menu-button:hover,
 .cheat-buttons button:hover {
   transform: translateY(-1px);
   box-shadow:
@@ -241,7 +242,7 @@ header .user-data p {
     0 8px 14px rgba(0, 0, 0, 0.32);
 }
 
-#cheat-toggle:active,
+.menu-button:active,
 .cheat-buttons button:active {
   transform: translateY(2px);
   box-shadow:
@@ -250,7 +251,7 @@ header .user-data p {
     0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-#cheat-toggle,
+.menu-button,
 .cheat-buttons button {
   border-radius: 4px;
 }

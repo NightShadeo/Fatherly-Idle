@@ -1,5 +1,31 @@
 "use strict";
 
+
+let userName = defaultSettings.userName;
+let userReps = defaultSettings.userReps;
+
+let daysLevel = defaultSettings.daysLevel;
+let daysPrest = defaultSettings.daysPrest;
+let strengthLevel = defaultSettings.strengthLevel;
+let strengthPrest = defaultSettings.strengthPrest;
+let benchLevel = defaultSettings.benchLevel;
+let benchPrest = defaultSettings.benchPrest;
+let squatLevel = defaultSettings.squatLevel;
+let squatPrest = defaultSettings.squatPrest;
+let deadliftLevel = defaultSettings.deadliftLevel;
+let deadliftPrest = defaultSettings.deadliftPrest;
+let rowLevel = defaultSettings.rowLevel;
+let rowPrest = defaultSettings.rowPrest;
+
+let benchStatIncrease = defaultSettings.benchStatIncrease;
+let squatStatIncrease = defaultSettings.squatStatIncrease;
+let deadliftStatIncrease = defaultSettings.deadliftStatIncrease;
+let rowStatIncrease = defaultSettings.rowStatIncrease;
+let clickReps = defaultSettings.clickReps;
+
+let preCharges = defaultSettings.preCharges;
+let userStrength = [...defaultSettings.userStrength];
+
 $(document).ready(() => {
     // Any screen text or HTML modification
     function refreshScreen() {
@@ -45,6 +71,38 @@ $(document).ready(() => {
         $("#3").text(userStrength[3].toFixed(1));   
     };
 
+
+    // Any user actions like clickable and things when the page loads
+    let strengthTotalLevel = (strengthLevel + (strengthPrest * $("#strength").attr("max")))
+    let strengthBonus = strengthTotalLevel * 0.05;
+
+    let daysRepsCost = ((daysLevel + 1 + (daysPrest * $("#days").attr("max"))) * (daysBaseCost * addedCost));
+    let daysTotalLevel = daysLevel + (daysPrest * $("#days").attr("max"));
+    let daysBonus = (daysTotalLevel * 14.285) / 100;
+
+    let strengthRepsCost = strengthBaseCost * Math.pow(addedCost, strengthTotalLevel);
+    
+    let benchTotalLevel = benchLevel + (benchPrest * $("#bench").attr("max"));
+    let benchRepsCost = benchBaseCost * Math.pow(addedCost, benchTotalLevel);
+    let benchSquatCost = (benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
+    
+
+    let preRepsCost = preBaseCost;
+
+    let squatTotalLevel = squatLevel + (squatPrest * $("#squat").attr("max"));
+    let squatRepsCost = squatBaseCost * Math.pow(addedCost, squatTotalLevel);
+    let squatRowCost = (squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
+
+    let deadliftTotalLevel = deadliftLevel + (deadliftPrest * $("#deadlift").attr("max"));
+    let deadliftRepsCost = deadliftBaseCost * Math.pow(addedCost, deadliftTotalLevel);
+    let deadliftBenchCost = (deadliftTotalLevel * (deadliftBaseCost * addedCost)) * repMuscleMult;
+
+    let rowTotalLevel = rowLevel + (rowPrest * $("#row").attr("max"));
+    let rowRepsCost = rowBaseCost * Math.pow(addedCost, rowTotalLevel);
+    let rowDeadliftCost = (rowTotalLevel * (rowBaseCost * addedCost)) * repMuscleMult;
+
+ 
+
     function updateStats() {
         $("#user-reps").text(Math.round(userReps));
         $("#0").text(userStrength[0].toFixed(1));
@@ -84,80 +142,21 @@ $(document).ready(() => {
         refreshScreen();
     };
 
-    // Touching line vars are changable game mechanics
-    const gameSpeed = 1; //fps
-    const addedCost = 1.25; // Multipler how much each upgrade costs more
-    const repMuscleMult = 0.64; // Rep to Muscle strength cost ratio
-    const upgradePercent = 0.025; // Percentage of each each upgrade gives you
-    const levelRanks = ["Small Frank", "Big Joe", "Sam Sulek", "Urs Kalecinski", "Jay Cutler", "Ronnie Coleman", "BIG CHUNGUS"];
-    const daysBaseCost = 30; 
-    const strengthBaseCost = 120;
-    const preBaseCost = 2500;
-    const benchBaseCost = 150;
-    const squatBaseCost = 150;
-    const deadliftBaseCost = 150;
-    const rowBaseCost = 150;
-
-    let userName = levelRanks[0];
-    let userReps = 1;
     
-    let daysLevel = 0;
-    let daysPrest = 0;
-    let strengthLevel = 0;
-    let strengthPrest = 0;
-    let benchLevel = 0;
-    let benchPrest = 0;
-    let squatLevel = 0;
-    let squatPrest = 0;
-    let deadliftLevel = 0;
-    let deadliftPrest = 0;
-    let rowLevel = 0;
-    let rowPrest = 0;
-
-    // Variables for the clicking area of the game
-    let benchStatIncrease = 0.1;
-    let squatStatIncrease = 0.1;
-    let deadliftStatIncrease = 0.1;
-    let rowStatIncrease = 0.1;
-    let clickReps = 1;
-
-    // Any user actions like clickable and things when the page loads
-    let strengthTotalLevel = (strengthLevel + (strengthPrest * $("#strength").attr("max")))
-    let strengthBonus = strengthTotalLevel * 0.05;
-
-    let daysRepsCost = ((daysLevel + 1 + (daysPrest * $("#days").attr("max"))) * (daysBaseCost * addedCost));
-    let daysTotalLevel = daysLevel + (daysPrest * $("#days").attr("max"));
-    let daysBonus = (daysTotalLevel * 14.285) / 100;
-
-    let strengthRepsCost = strengthBaseCost * Math.pow(addedCost, strengthTotalLevel);
+    //Save / load game functions
+    loadGame();
+    refreshScreen();
     
-    let benchTotalLevel = benchLevel + (benchPrest * $("#bench").attr("max"));
-    let benchRepsCost = benchBaseCost * Math.pow(addedCost, benchTotalLevel);
-    let benchSquatCost = (benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
-    
-    let preCharges = 0;
-    let preRepsCost = preBaseCost;
+    $("#save-button").click(saveGame);
+    $("#reset-button").click(resetSave);
 
-    let squatTotalLevel = squatLevel + (squatPrest * $("#squat").attr("max"));
-    let squatRepsCost = squatBaseCost * Math.pow(addedCost, squatTotalLevel);
-    let squatRowCost = (squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
 
-    let deadliftTotalLevel = deadliftLevel + (deadliftPrest * $("#deadlift").attr("max"));
-    let deadliftRepsCost = deadliftBaseCost * Math.pow(addedCost, deadliftTotalLevel);
-    let deadliftBenchCost = (deadliftTotalLevel * (deadliftBaseCost * addedCost)) * repMuscleMult;
-
-    let rowTotalLevel = rowLevel + (rowPrest * $("#row").attr("max"));
-    let rowRepsCost = rowBaseCost * Math.pow(addedCost, rowTotalLevel);
-    let rowDeadliftCost = (rowTotalLevel * (rowBaseCost * addedCost)) * repMuscleMult;
-
-    // Bench, Squat, Deadlift, Row
-    let userStrength = [45, 45, 45, 45, userReps];
 
     $('#cheat-toggle').click(function () {
         $('.cheat-menu-container').toggleClass('open');
     });
     
-    $(".cheater-button").click(function () {
+    $(".menu-button").click(function () {
         const cheatChoice = $(this).attr("id"); 
 
         switch(cheatChoice) {
@@ -303,6 +302,9 @@ $(document).ready(() => {
             case (totalLevel < 120):
                 userName = levelRanks[6];
                 break;
+            case (totalLevel >= 120):
+                userName = levelRanks[7];
+                break;
         }
 
         $("#user-name").text(userName);
@@ -343,6 +345,7 @@ $(document).ready(() => {
             rowLevel = 0;
         }
     });
+
 
     // Play Area Workout Cards Clicking Code
     // Play Tiles expand rapidly when clicked on

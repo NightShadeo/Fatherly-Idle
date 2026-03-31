@@ -58,14 +58,16 @@
             <div class="sidebar">
                 <h2>Upgrade Menu</h2>
                     <div class="cheat-menu-container">
-                        <button id="cheat-toggle">Cheats!</button>
+                        <button class="menu-button" id="reset-button">Reset Save</button>
+                        <button class="menu-button" id="save-button">Save Game</button>
+                        <button class="menu-button" id="cheat-toggle">Cheats!</button>
                         <div class="cheat-buttons">
-                            <button class="cheater-button" id="give-money">Give money</button>
-                            <button class="cheater-button" id="give-bench">Give bench</button>
-                            <button class="cheater-button" id="give-squat">Give squat</button>
-                            <button class="cheater-button" id="give-deadlift">Give deadlift</button>
-                            <button class="cheater-button" id="give-row">Give row</button>
-                            <button class="cheater-button" id="give-reps">Give reps</button>
+                            <button class="menu-button" id="give-money">Give money</button>
+                            <button class="menu-button" id="give-bench">Give bench</button>
+                            <button class="menu-button" id="give-squat">Give squat</button>
+                            <button class="menu-button" id="give-deadlift">Give deadlift</button>
+                            <button class="menu-button" id="give-row">Give row</button>
+                            <button class="menu-button" id="give-reps">Give reps</button>
                         </div>
                     </div>
                     <p class="reps-count">Reps: <span id="user-reps">0</span>
@@ -121,6 +123,8 @@
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="config.js"></script>
         <script src="script.js"></script>
+        <script src="save.js"></script>
     </body>
 </html>
