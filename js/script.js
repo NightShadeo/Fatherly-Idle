@@ -110,6 +110,9 @@ $(document).ready(() => {
         gameCalculations.rowTotalLevel = gameState.rowLevel + (gameState.rowPrest * $("#row").attr("max"));
         gameCalculations.daysTotalLevel = gameState.daysLevel + (gameState.daysPrest * $("#days").attr("max"));
 
+        // Prestige Multiplier Gains
+        gameCalculations.benchPrestMult = Math.pow(2, gameState.benchPrest);
+
         gameCalculations.strengthBonus = gameCalculations.strengthTotalLevel * 0.05;
 
         if (gameState.preCharges > 0) {
@@ -128,6 +131,7 @@ $(document).ready(() => {
        
         refreshScreen();
         updateStats();
+        console.log(gameState.benchPrest);
     };
 
   

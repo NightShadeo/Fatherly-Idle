@@ -49,5 +49,6 @@ const gameCalculations = {
     rowDeadliftCost: 0,
     preRepsCost: 0,
     strengthBonus: 0,
-    clickUpgradeValue: 0
+    clickUpgradeValue: 0,
+    benchPrestMult: 1,
 };
