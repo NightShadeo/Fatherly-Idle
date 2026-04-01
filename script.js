@@ -1,64 +1,14 @@
 "use strict";
-
-
-let userName = defaultSettings.userName;
-let userReps = defaultSettings.userReps;
-
-let daysLevel = defaultSettings.daysLevel;
-let daysPrest = defaultSettings.daysPrest;
-let strengthLevel = defaultSettings.strengthLevel;
-let strengthPrest = defaultSettings.strengthPrest;
-let benchLevel = defaultSettings.benchLevel;
-let benchPrest = defaultSettings.benchPrest;
-let squatLevel = defaultSettings.squatLevel;
-let squatPrest = defaultSettings.squatPrest;
-let deadliftLevel = defaultSettings.deadliftLevel;
-let deadliftPrest = defaultSettings.deadliftPrest;
-let rowLevel = defaultSettings.rowLevel;
-let rowPrest = defaultSettings.rowPrest;
-
-let benchStatIncrease = defaultSettings.benchStatIncrease;
-let squatStatIncrease = defaultSettings.squatStatIncrease;
-let deadliftStatIncrease = defaultSettings.deadliftStatIncrease;
-let rowStatIncrease = defaultSettings.rowStatIncrease;
-let clickReps = defaultSettings.clickReps;
-let clickBase = defaultSettings.clickBase;
-let clickGrowth = defaultSettings.clickGrowth;
-
-let preCharges = defaultSettings.preCharges;
-let userStrength = [...defaultSettings.userStrength];
-// let adminAccess = defaultSettings.adminAccess;
-
-let strengthTotalLevel;
-let strengthRepsCost;
-let daysTotalLevel;
-let daysRepsCost;
-let benchTotalLevel;
-let benchRepsCost;
-let benchSquatCost;
-let squatTotalLevel;
-let squatRepsCost;
-let squatRowCost;
-let deadliftTotalLevel;
-let deadliftRepsCost;
-let deadliftBenchCost;
-let rowTotalLevel;
-let rowRepsCost;
-let rowDeadliftCost;
-let preRepsCost;
-let strengthBonus;
-let clickUpgradeValue;
-
 // array of upgrades simply for use with the ui updating for canAfford states
 
 let upgrades = [
-    { id: "daysUp", canAfford: () => userReps >= daysRepsCost },
-    { id: "strengthUp", canAfford: () => userReps >= strengthRepsCost },
-    { id: "preworkoutUp", canAfford: () => userReps >= preBaseCost },
-    { id: "benchUp", canAfford: () => (userStrength[1] >= benchSquatCost) && (userReps >= benchRepsCost) },
-    { id: "squatUp", canAfford: () => (userStrength[3] >= squatRowCost) && (userReps >= squatRepsCost) },
-    { id: "deadliftUp", canAfford: () => (userStrength[0] >= deadliftBenchCost) && (userReps >= deadliftRepsCost) },
-    { id: "rowUp", canAfford: () => (userStrength[2] >= rowDeadliftCost) && (userReps >= rowRepsCost) }
+    { id: "daysUp", canAfford: () => gameState.userReps >= gameCalculations.daysRepsCost },
+    { id: "strengthUp", canAfford: () => gameState.userReps >= gameCalculations.strengthRepsCost },
+    { id: "preworkoutUp", canAfford: () => gameState.userReps >= preBaseCost },
+    { id: "benchUp", canAfford: () => (gameState.userStrength[1] >= gameCalculations.benchSquatCost) && (gameState.userReps >= gameCalculations.benchRepsCost) },
+    { id: "squatUp", canAfford: () => (gameState.userStrength[3] >= gameCalculations.squatRowCost) && (gameState.userReps >= gameCalculations.squatRepsCost) },
+    { id: "deadliftUp", canAfford: () => (gameState.userStrength[0] >= gameCalculations.deadliftBenchCost) && (gameState.userReps >= gameCalculations.deadliftRepsCost) },
+    { id: "rowUp", canAfford: () => (gameState.userStrength[2] >= gameCalculations.rowDeadliftCost) && (gameState.userReps >= gameCalculations.rowRepsCost) }
 ];
 
 $(document).ready(() => {
@@ -69,110 +19,110 @@ $(document).ready(() => {
     refreshScreen();
     // Any screen text or HTML modification
     function refreshScreen() {
-        $("#user-name").text(userName);
-        $("#user-reps").text(Math.round(userReps));
+        $("#user-name").text(gameState.userName);
+        $("#user-reps").text(Math.round(gameState.userReps));
 
-        $("#days").attr("value", daysLevel);
-        $("#days").next("span").text(Math.round(daysPrest));
+        $("#days").attr("value", gameState.daysLevel);
+        $("#days").next("span").text(Math.round(gameState.daysPrest));
 
-        $("#preworkout").attr("value", preCharges);
+        $("#preworkout").attr("value", gameState.preCharges);
 
-        $("#strength").attr("value", strengthLevel);
-        $("#strength").next("span").text(Math.round(strengthPrest));
+        $("#strength").attr("value", gameState.strengthLevel);
+        $("#strength").next("span").text(Math.round(gameState.strengthPrest));
 
-        $("#bench").attr("value", benchLevel);
-        $("#bench").next("span").text(Math.round(benchPrest));
+        $("#bench").attr("value", gameState.benchLevel);
+        $("#bench").next("span").text(Math.round(gameState.benchPrest));
 
-        $("#squat").attr("value", squatLevel);
-        $("#squat").next("span").text(Math.round(squatPrest));
+        $("#squat").attr("value", gameState.squatLevel);
+        $("#squat").next("span").text(Math.round(gameState.squatPrest));
         
-        $("#deadlift").attr("value", deadliftLevel);
-        $("#deadlift").next("span").text(Math.round(deadliftPrest));
+        $("#deadlift").attr("value", gameState.deadliftLevel);
+        $("#deadlift").next("span").text(Math.round(gameState.deadliftPrest));
         
-        $("#row").attr("value", rowLevel);
-        $("#row").next("span").text(Math.round(rowPrest));
+        $("#row").attr("value", gameState.rowLevel);
+        $("#row").next("span").text(Math.round(gameState.rowPrest));
         
-        $("#daysUp").find(".reps-cost").text(Math.round(daysRepsCost));
-        $("#strengthUp").find(".reps-cost").text(Math.round(strengthRepsCost));
-        $("#strengthUp").find(".upgrade-value").text(clickUpgradeValue);
-        $("#preworkoutUp").find(".reps-cost").text(Math.round(preRepsCost));
-        $("#benchUp").find(".reps-cost").text(Math.round(benchRepsCost));
-        $("#squatUp").find(".reps-cost").text(Math.round(squatRepsCost));
-        $("#deadliftUp").find(".reps-cost").text(Math.round(deadliftRepsCost));
-        $("#rowUp").find(".reps-cost").text(Math.round(rowRepsCost));
+        $("#daysUp").find(".reps-cost").text(Math.round(gameCalculations.daysRepsCost));
+        $("#strengthUp").find(".reps-cost").text(Math.round(gameCalculations.strengthRepsCost));
+        $("#strengthUp").find(".upgrade-value").text(gameCalculations.clickUpgradeValue);
+        $("#preworkoutUp").find(".reps-cost").text(Math.round(gameCalculations.preRepsCost));
+        $("#benchUp").find(".reps-cost").text(Math.round(gameCalculations.benchRepsCost));
+        $("#squatUp").find(".reps-cost").text(Math.round(gameCalculations.squatRepsCost));
+        $("#deadliftUp").find(".reps-cost").text(Math.round(gameCalculations.deadliftRepsCost));
+        $("#rowUp").find(".reps-cost").text(Math.round(gameCalculations.rowRepsCost));
 
-        $("#benchUp").find(".muscle-cost").text(Math.round(benchSquatCost));
-        $("#squatUp").find(".muscle-cost").text(Math.round(squatRowCost));
-        $("#deadliftUp").find(".muscle-cost").text(Math.round(deadliftBenchCost));
-        $("#rowUp").find(".muscle-cost").text(Math.round(rowDeadliftCost));
+        $("#benchUp").find(".muscle-cost").text(Math.round(gameCalculations.benchSquatCost));
+        $("#squatUp").find(".muscle-cost").text(Math.round(gameCalculations.squatRowCost));
+        $("#deadliftUp").find(".muscle-cost").text(Math.round(gameCalculations.deadliftBenchCost));
+        $("#rowUp").find(".muscle-cost").text(Math.round(gameCalculations.rowDeadliftCost));
 
-        $("#0").text(userStrength[0].toFixed(1));
-        $("#1").text(userStrength[1].toFixed(1));
-        $("#2").text(userStrength[2].toFixed(1));
-        $("#3").text(userStrength[3].toFixed(1));   
+        $("#0").text(gameState.userStrength[0].toFixed(1));
+        $("#1").text(gameState.userStrength[1].toFixed(1));
+        $("#2").text(gameState.userStrength[2].toFixed(1));
+        $("#3").text(gameState.userStrength[3].toFixed(1));   
         
         checkUpgradeStates();
     };
 
     function recalcUpgradeValues() {
-        strengthTotalLevel = strengthLevel + (strengthPrest * Number($("#strength").attr("max")));
-        daysTotalLevel = daysLevel + (daysPrest * Number($("#days").attr("max")));
-        benchTotalLevel = benchLevel + (benchPrest * Number($("#bench").attr("max")));
-        squatTotalLevel = squatLevel + (squatPrest * Number($("#squat").attr("max")));
-        deadliftTotalLevel = deadliftLevel + (deadliftPrest * Number($("#deadlift").attr("max")));
-        rowTotalLevel = rowLevel + (rowPrest * Number($("#row").attr("max")));
+        gameCalculations.strengthTotalLevel = gameState.strengthLevel + (gameState.strengthPrest * Number($("#strength").attr("max")));
+        gameCalculations.daysTotalLevel = gameState.daysLevel + (gameState.daysPrest * Number($("#days").attr("max")));
+        gameCalculations.benchTotalLevel = gameState.benchLevel + (gameState.benchPrest * Number($("#bench").attr("max")));
+        gameCalculations.squatTotalLevel = gameState.squatLevel + (gameState.squatPrest * Number($("#squat").attr("max")));
+        gameCalculations.deadliftTotalLevel = gameState.deadliftLevel + (gameState.deadliftPrest * Number($("#deadlift").attr("max")));
+        gameCalculations.rowTotalLevel = gameState.rowLevel + (gameState.rowPrest * Number($("#row").attr("max")));
 
-        strengthRepsCost = strengthBaseCost * Math.pow(addedCost, strengthTotalLevel);
-        daysRepsCost = ((daysLevel + 1 + (daysPrest * Number($("#days").attr("max")))) * (daysBaseCost * addedCost));
-        preRepsCost = preBaseCost;
-        benchRepsCost = benchBaseCost * Math.pow(addedCost, benchTotalLevel);
-        benchSquatCost = (benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
+        gameCalculations.strengthRepsCost = strengthBaseCost * Math.pow(addedCost, gameCalculations.strengthTotalLevel);
+        gameCalculations.daysRepsCost = ((gameState.daysLevel + 1 + (gameState.daysPrest * Number($("#days").attr("max")))) * (daysBaseCost * addedCost));
+        gameCalculations.preRepsCost = preBaseCost;
+        gameCalculations.benchRepsCost = benchBaseCost * Math.pow(addedCost, gameCalculations.benchTotalLevel);
+        gameCalculations.benchSquatCost = (gameCalculations.benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
 
-        clickUpgradeValue = Math.max(clickReps +1, Math.floor(clickBase * Math.pow(clickGrowth, strengthTotalLevel + 1))) - clickReps;
+        gameCalculations.clickUpgradeValue = Math.max(gameState.clickReps +1, Math.floor(gameState.clickBase * Math.pow(gameState.clickGrowth, gameCalculations.strengthTotalLevel + 1))) - gameState.clickReps;
 
-        squatRepsCost = squatBaseCost * Math.pow(addedCost, squatTotalLevel);
-        squatRowCost = (squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
+        gameCalculations.squatRepsCost = squatBaseCost * Math.pow(addedCost, gameCalculations.squatTotalLevel);
+        gameCalculations.squatRowCost = (gameCalculations.squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
 
-        deadliftRepsCost = deadliftBaseCost * Math.pow(addedCost, deadliftTotalLevel);
-        deadliftBenchCost = (deadliftTotalLevel * (deadliftBaseCost * addedCost)) * repMuscleMult;
+        gameCalculations.deadliftRepsCost = deadliftBaseCost * Math.pow(addedCost, gameCalculations.deadliftTotalLevel);
+        gameCalculations.deadliftBenchCost = (gameCalculations.deadliftTotalLevel * (deadliftBaseCost * addedCost)) * repMuscleMult;
 
-        rowRepsCost = rowBaseCost * Math.pow(addedCost, rowTotalLevel);
-        rowDeadliftCost = (rowTotalLevel * (rowBaseCost * addedCost)) * repMuscleMult;
+        gameCalculations.rowRepsCost = rowBaseCost * Math.pow(addedCost, gameCalculations.rowTotalLevel);
+        gameCalculations.rowDeadliftCost = (gameCalculations.rowTotalLevel * (rowBaseCost * addedCost)) * repMuscleMult;
     };
 
  
 
     function updateStats() {
-        $("#user-reps").text(Math.round(userReps));
-        $("#0").text(userStrength[0].toFixed(1));
-        $("#1").text(userStrength[1].toFixed(1));
-        $("#2").text(userStrength[2].toFixed(1));
-        $("#3").text(userStrength[3].toFixed(1)); 
+        $("#user-reps").text(Math.round(gameState.userReps));
+        $("#0").text(gameState.userStrength[0].toFixed(1));
+        $("#1").text(gameState.userStrength[1].toFixed(1));
+        $("#2").text(gameState.userStrength[2].toFixed(1));
+        $("#3").text(gameState.userStrength[3].toFixed(1)); 
     };
 
     // Any runtime logic
     function gameTick() {
 
-        strengthTotalLevel = strengthLevel + (strengthPrest * $("#strength").attr("max"));
-        benchTotalLevel = benchLevel + (benchPrest * $("#bench").attr("max"));
-        squatTotalLevel = squatLevel + (squatPrest * $("#squat").attr("max"));
-        deadliftTotalLevel = deadliftLevel + (deadliftPrest * $("#deadlift").attr("max"));
-        rowTotalLevel = rowLevel + (rowPrest * $("#row").attr("max"));
-        daysTotalLevel = daysLevel + (daysPrest * $("#days").attr("max"));
+        gameCalculations.strengthTotalLevel = gameState.strengthLevel + (gameState.strengthPrest * $("#strength").attr("max"));
+        gameCalculations.benchTotalLevel = gameState.benchLevel + (gameState.benchPrest * $("#bench").attr("max"));
+        gameCalculations.squatTotalLevel = gameState.squatLevel + (gameState.squatPrest * $("#squat").attr("max"));
+        gameCalculations.deadliftTotalLevel = gameState.deadliftLevel + (gameState.deadliftPrest * $("#deadlift").attr("max"));
+        gameCalculations.rowTotalLevel = gameState.rowLevel + (gameState.rowPrest * $("#row").attr("max"));
+        gameCalculations.daysTotalLevel = gameState.daysLevel + (gameState.daysPrest * $("#days").attr("max"));
 
-        strengthBonus = strengthTotalLevel * 0.05;
+        gameCalculations.strengthBonus = gameCalculations.strengthTotalLevel * 0.05;
 
-        if (preCharges > 0) {
-            strengthBonus *= 2;
-            preCharges -= 1;
+        if (gameState.preCharges > 0) {
+            gameCalculations.strengthBonus *= 2;
+            gameState.preCharges -= 1;
         };
         
-        userStrength[0] += upgradePercent * (benchLevel + (benchTotalLevel));
-        userStrength[1] += upgradePercent * (squatLevel + (squatTotalLevel));
-        userStrength[2] += upgradePercent * (deadliftLevel + (deadliftTotalLevel));
-        userStrength[3] += upgradePercent * (rowLevel + (rowTotalLevel));
+        gameState.userStrength[0] += upgradePercent * (gameState.benchLevel + (gameCalculations.benchTotalLevel));
+        gameState.userStrength[1] += upgradePercent * (gameState.squatLevel + (gameCalculations.squatTotalLevel));
+        gameState.userStrength[2] += upgradePercent * (gameState.deadliftLevel + (gameCalculations.deadliftTotalLevel));
+        gameState.userStrength[3] += upgradePercent * (gameState.rowLevel + (gameCalculations.rowTotalLevel));
 
-        userReps += daysTotalLevel;
+        gameState.userReps += gameCalculations.daysTotalLevel;
 
 
        
@@ -222,33 +172,33 @@ $(document).ready(() => {
 
         switch(cheatChoice) {
             case "give-money":
-                userReps += 100000;
-                for (let i = 0; i < userStrength.length - 1; i++) {
-                    userStrength[i] += 100000;
+                gameState.userReps += 100000;
+                for (let i = 0; i < gameState.userStrength.length - 1; i++) {
+                    gameState.userStrength[i] += 100000;
                 }
-                userStrength[4] = userReps;
+                gameState.userStrength[4] = gameState.userReps;
                 break;
             case "give-bench":
-                userStrength[0] += 100;
+                gameState.userStrength[0] += 100;
                 break;
             case "give-squat":
-                userStrength[1] += 100;
+                gameState.userStrength[1] += 100;
                 break;
             case "give-deadlift":
-                userStrength[2] += 100;
+                gameState.userStrength[2] += 100;
                 break;
             case "give-row":
-                userStrength[3] += 100;
+                gameState.userStrength[3] += 100;
                 break;
             case "give-reps":
-                userReps += 1000
+                gameState.userReps += 1000
                 break;
                 }
                 updateStats();
     });
 
-    let totalLevel = daysTotalLevel + strengthTotalLevel + benchTotalLevel +
-                squatTotalLevel + deadliftTotalLevel + rowTotalLevel;
+    let totalLevel = gameCalculations.daysTotalLevel + gameCalculations.strengthTotalLevel + gameCalculations.benchTotalLevel +
+                gameCalculations.squatTotalLevel + gameCalculations.deadliftTotalLevel + gameCalculations.rowTotalLevel;
     $("#user-level").text(totalLevel);
 
     refreshScreen();
@@ -257,85 +207,85 @@ $(document).ready(() => {
         const upgradeChoice = $(this).attr("id");
         switch (upgradeChoice) {
             case "daysUp":
-                if (userReps < daysRepsCost) {
+                if (gameState.userReps < gameCalculations.daysRepsCost) {
                     break;
                 } else {
-                    daysLevel += 1;
-                    daysTotalLevel = daysLevel + (daysPrest * $("#days").attr("max"));
-                    userReps -= daysRepsCost;
-                    daysRepsCost = (daysTotalLevel * (daysBaseCost * addedCost));
+                    gameState.daysLevel += 1;
+                    gameCalculations.daysTotalLevel = gameState.daysLevel + (gameState.daysPrest * $("#days").attr("max"));
+                    gameState.userReps -= gameCalculations.daysRepsCost;
+                    gameCalculations.daysRepsCost = (gameCalculations.daysTotalLevel * (daysBaseCost * addedCost));
                     break;
                 }
             case "strengthUp":
-                if (userReps < strengthRepsCost) {
+                if (gameState.userReps < gameCalculations.strengthRepsCost) {
                     break;
                 } else {
-                    userReps -= strengthRepsCost;
-                    strengthLevel += 1;
-                    strengthTotalLevel = strengthLevel + (strengthPrest * $("#strength").attr("max"));
-                    strengthRepsCost = strengthRepsCost = Math.floor(strengthBaseCost * Math.pow(addedCost, strengthTotalLevel));
-                    clickReps = Math.max(clickReps +1, Math.floor(clickBase * Math.pow(clickGrowth, strengthTotalLevel)));
+                    gameState.userReps -= gameCalculations.strengthRepsCost;
+                    gameState.strengthLevel += 1;
+                    gameCalculations.strengthTotalLevel = gameState.strengthLevel + (gameState.strengthPrest * $("#strength").attr("max"));
+                    gameCalculations.strengthRepsCost = gameCalculations.strengthRepsCost = Math.floor(strengthBaseCost * Math.pow(addedCost, gameCalculations.strengthTotalLevel));
+                    gameState.clickReps = Math.max(gameState.clickReps +1, Math.floor(gameState.clickBase * Math.pow(gameState.clickGrowth, gameCalculations.strengthTotalLevel)));
                     recalcUpgradeValues();
                     refreshScreen();
                     break;
                 }
             case "preworkoutUp":
-                if (userReps < preBaseCost) {
+                if (gameState.userReps < preBaseCost) {
                     break;
                 } else {
-                    userReps -= preBaseCost;
-                    preCharges = 200;
+                    gameState.userReps -= preBaseCost;
+                    gameState.preCharges = 200;
                     break;
                 }
             case "benchUp":
-                if ((userStrength[1] >= benchSquatCost) && (userReps >= benchRepsCost)) {
-                    userReps -= benchRepsCost;
-                    userStrength[1] -= benchSquatCost;
-                    benchLevel += 1;
-                    benchTotalLevel = benchLevel + (benchPrest * $("#bench").attr("max"));
-                    benchRepsCost = benchBaseCost * Math.pow(addedCost, benchTotalLevel);
-                    benchSquatCost = (benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
-                    benchStatIncrease *= 2;
+                if ((gameState.userStrength[1] >= gameCalculations.benchSquatCost) && (gameState.userReps >= gameCalculations.benchRepsCost)) {
+                    gameState.userReps -= gameCalculations.benchRepsCost;
+                    gameState.userStrength[1] -= gameCalculations.benchSquatCost;
+                    gameState.benchLevel += 1;
+                    gameCalculations.benchTotalLevel = gameState.benchLevel + (gameState.benchPrest * $("#bench").attr("max"));
+                    gameCalculations.benchRepsCost = benchBaseCost * Math.pow(addedCost, gameCalculations.benchTotalLevel);
+                    gameCalculations.benchSquatCost = (gameCalculations.benchTotalLevel * (benchBaseCost * addedCost)) * repMuscleMult;
+                    gameState.benchStatIncrease *= 2;
                     break;
                 } else {
                     break;
                 }    
             case "squatUp":
-                if ((userStrength[3] >= squatRowCost) && (userReps >= squatRepsCost)) {
-                    userReps -= squatRepsCost;
-                    userStrength[3] -= squatRowCost;
-                    squatLevel += 1;
-                    squatTotalLevel = squatLevel + (squatPrest * $("#squat").attr("max"));
-                    squatRepsCost = squatBaseCost * Math.pow(addedCost, squatTotalLevel);
-                    squatRowCost = (squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
-                    squatStatIncrease *=2;
+                if ((gameState.userStrength[3] >= gameCalculations.squatRowCost) && (gameState.userReps >= gameCalculations.squatRepsCost)) {
+                    gameState.userReps -= gameCalculations.squatRepsCost;
+                    gameState.userStrength[3] -= gameCalculations.squatRowCost;
+                    gameState.squatLevel += 1;
+                    gameCalculations.squatTotalLevel = gameState.squatLevel + (gameState.squatPrest * $("#squat").attr("max"));
+                    gameCalculations.squatRepsCost = squatBaseCost * Math.pow(addedCost, gameCalculations.squatTotalLevel);
+                    gameCalculations.squatRowCost = (gameCalculations.squatTotalLevel * (squatBaseCost * addedCost)) * repMuscleMult;
+                    gameState.squatStatIncrease *=2;
                     break;
                 } else {
                     break;
                 }
             case "deadliftUp":
-                if ((userStrength[0] >= deadliftBenchCost) && (userReps >= deadliftRepsCost)) {
-                    userReps -= deadliftRepsCost;
-                    userStrength[0] -= deadliftBenchCost;
-                    deadliftLevel += 1;
-                    deadliftTotalLevel = deadliftLevel + (deadliftPrest * $("#deadlift").attr("max"));
-                    deadliftRepsCost = deadliftBaseCost * Math.pow(addedCost, deadliftTotalLevel);
-                    deadliftBenchCost = (deadliftTotalLevel * (deadliftBaseCost * addedCost)) * repMuscleMult;
-                    deadliftStatIncrease *=2;
+                if ((gameState.userStrength[0] >= gameCalculations.deadliftBenchCost) && (gameState.userReps >= gameCalculations.deadliftRepsCost)) {
+                    gameState.userReps -= gameCalculations.deadliftRepsCost;
+                    gameState.userStrength[0] -= gameCalculations.deadliftBenchCost;
+                    gameState.deadliftLevel += 1;
+                    gameCalculations.deadliftTotalLevel = gameState.deadliftLevel + (gameState.deadliftPrest * $("#deadlift").attr("max"));
+                    gameCalculations.deadliftRepsCost = deadliftBaseCost * Math.pow(addedCost, gameCalculations.deadliftTotalLevel);
+                    gameCalculations.deadliftBenchCost = (gameCalculations.deadliftTotalLevel * (deadliftBaseCost * addedCost)) * repMuscleMult;
+                    gameState.deadliftStatIncrease *=2;
                     break;
                 } else {
                     break;
                 }
          
             case "rowUp":
-                if ((userStrength[2] >= rowDeadliftCost) && (userReps >= rowRepsCost)) {
-                    userReps -= rowRepsCost;
-                    userStrength[2] -= rowDeadliftCost;
-                    rowLevel += 1;
-                    rowTotalLevel = rowLevel + (rowPrest * $("#row").attr("max"));
-                    rowRepsCost = rowBaseCost * Math.pow(addedCost, rowTotalLevel);
-                    rowDeadliftCost = (rowTotalLevel * (rowBaseCost * addedCost)) * repMuscleMult;
-                    rowStatIncrease *=2;
+                if ((gameState.userStrength[2] >= gameCalculations.rowDeadliftCost) && (gameState.userReps >= gameCalculations.rowRepsCost)) {
+                    gameState.userReps -= gameCalculations.rowRepsCost;
+                    gameState.userStrength[2] -= gameCalculations.rowDeadliftCost;
+                    gameState.rowLevel += 1;
+                    gameCalculations.rowTotalLevel = gameState.rowLevel + (gameState.rowPrest * $("#row").attr("max"));
+                    gameCalculations.rowRepsCost = rowBaseCost * Math.pow(addedCost, gameCalculations.rowTotalLevel);
+                    gameCalculations.rowDeadliftCost = (gameCalculations.rowTotalLevel * (rowBaseCost * addedCost)) * repMuscleMult;
+                    gameState.rowStatIncrease *=2;
                     break;
                 } else {
                     break;
@@ -348,67 +298,67 @@ $(document).ready(() => {
 
         switch (true) {
             case (totalLevel < 20):
-                userName = levelRanks[0];
+                gameState.userName = levelRanks[0];
                 break;
             case (totalLevel < 30):
-                userName = levelRanks[1];
+                gameState.userName = levelRanks[1];
                 break;
             case (totalLevel < 50):
-                userName = levelRanks[2];
+                gameState.userName = levelRanks[2];
                 break;
             case (totalLevel < 60):
-                userName = levelRanks[3];
+                gameState.userName = levelRanks[3];
                 break;
             case (totalLevel < 80):
-                userName = levelRanks[4];
+                gameState.userName = levelRanks[4];
                 break;
             case (totalLevel < 99):
-                userName = levelRanks[5];
+                gameState.userName = levelRanks[5];
                 break;
             case (totalLevel < 120):
-                userName = levelRanks[6];
+                gameState.userName = levelRanks[6];
                 break;
             case (totalLevel >= 120):
-                userName = levelRanks[7];
+                gameState.userName = levelRanks[7];
                 break;
         }
 
-        $("#user-name").text(userName);
+        $("#user-name").text(gameState.userName);
 
-        totalLevel = daysTotalLevel + strengthTotalLevel + benchTotalLevel +
-                squatTotalLevel + deadliftTotalLevel + rowTotalLevel;
+        totalLevel = gameCalculations.daysTotalLevel + gameCalculations.strengthTotalLevel + gameCalculations.benchTotalLevel +
+                gameCalculations.squatTotalLevel + gameCalculations.deadliftTotalLevel + gameCalculations.rowTotalLevel;
         $("#user-level").text(totalLevel);
 
         refreshScreen();
 
         if ($("#days").val() == $("#days").attr("max")) {
-            daysPrest += 1;
-            daysLevel = 0;
+            gameState.daysPrest += 1;
+            gameState.daysLevel = 0;
         }
 
         if ($("#strength").val() == $("#strength").attr("max")) {
-            strengthPrest += 1;
-            strengthLevel = 0;
+            gameState.strengthPrest += 1;
+            gameState.strengthLevel = 0;
         }
         
         if ($("#bench").val() == $("#bench").attr("max")) {
-            benchPrest += 1;
-            benchLevel = 0;
+            gameState.benchPrest += 1;
+            gameState.benchLevel = 0;
         }
         
         if ($("#squat").val() == $("#squat").attr("max")) {
-            squatPrest += 1;
-            squatLevel = 0;
+            gameState.squatPrest += 1;
+            gameState.squatLevel = 0;
         }
         
         if ($("#deadlift").val() == $("#deadlift").attr("max")) {
-            deadliftPrest += 1;
-            deadliftLevel = 0;
+            gameState.deadliftPrest += 1;
+            gameState.deadliftLevel = 0;
         }
         
         if ($("#row").val() == $("#row").attr("max")) {
-            rowPrest += 1;
-            rowLevel = 0;
+            gameState.rowPrest += 1;
+            gameState.rowLevel = 0;
         }
     });
 
@@ -487,29 +437,29 @@ $(document).ready(() => {
             case "bench-action":
                 statToIncreaseIndex = 0;
                 if (statToIncreaseIndex !== null) {
-                    userStrength[statToIncreaseIndex] += benchStatIncrease;}
+                    gameState.userStrength[statToIncreaseIndex] += gameState.benchStatIncrease;}
                 break;
             case "squat-action":
                 statToIncreaseIndex = 1;
                 if (statToIncreaseIndex !== null) {
-                    userStrength[statToIncreaseIndex] += squatStatIncrease;}
+                    gameState.userStrength[statToIncreaseIndex] += gameState.squatStatIncrease;}
                 break;
             case "deadlift-action":
                 statToIncreaseIndex = 2;
                 if (statToIncreaseIndex !== null) {
-                    userStrength[statToIncreaseIndex] += deadliftStatIncrease;}
+                    gameState.userStrength[statToIncreaseIndex] += gameState.deadliftStatIncrease;}
                 break;
             case "row-action":
                 statToIncreaseIndex = 3;
                 if (statToIncreaseIndex !== null) {
-                    userStrength[statToIncreaseIndex] += rowStatIncrease;}
+                    gameState.userStrength[statToIncreaseIndex] += gameState.rowStatIncrease;}
                     break;
                 }
                 updateStats();
 
-        userReps += clickReps;
+        gameState.userReps += gameState.clickReps;
 
-        let floatingRepValue = String(clickReps);
+        let floatingRepValue = String(gameState.clickReps);
         let floatingRep = $('<span>').addClass('reps-floating').text('+' + floatingRepValue);
         $('#user-reps-floating').append(floatingRep);
 
@@ -517,7 +467,7 @@ $(document).ready(() => {
             floatingRep.remove();
         }, 800);
 
-        $("#user-reps").text(Math.round(userReps));
+        $("#user-reps").text(Math.round(gameState.userReps));
     });
 
     setInterval(gameTick, 1000 / gameSpeed);
