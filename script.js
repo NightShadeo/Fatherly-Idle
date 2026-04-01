@@ -27,7 +27,7 @@ let clickGrowth = defaultSettings.clickGrowth;
 
 let preCharges = defaultSettings.preCharges;
 let userStrength = [...defaultSettings.userStrength];
-let adminAccess = defaultSettings.adminAccess;
+// let adminAccess = defaultSettings.adminAccess;
 
 let strengthTotalLevel;
 let strengthRepsCost;
@@ -48,6 +48,18 @@ let rowDeadliftCost;
 let preRepsCost;
 let strengthBonus;
 let clickUpgradeValue;
+
+// array of upgrades simply for use with the ui updating for canAfford states
+
+let upgrades = [
+    { id: "daysUp", canAfford: () => userReps >= daysRepsCost },
+    { id: "strengthUp", canAfford: () => userReps >= strengthRepsCost },
+    { id: "preworkoutUp", canAfford: () => userReps >= preBaseCost },
+    { id: "benchUp", canAfford: () => (userStrength[1] >= benchSquatCost) && (userReps >= benchRepsCost) },
+    { id: "squatUp", canAfford: () => (userStrength[3] >= squatRowCost) && (userReps >= squatRepsCost) },
+    { id: "deadliftUp", canAfford: () => (userStrength[0] >= deadliftBenchCost) && (userReps >= deadliftRepsCost) },
+    { id: "rowUp", canAfford: () => (userStrength[2] >= rowDeadliftCost) && (userReps >= rowRepsCost) }
+];
 
 $(document).ready(() => {
 
@@ -98,6 +110,8 @@ $(document).ready(() => {
         $("#1").text(userStrength[1].toFixed(1));
         $("#2").text(userStrength[2].toFixed(1));
         $("#3").text(userStrength[3].toFixed(1));   
+        
+        checkUpgradeStates();
     };
 
     function recalcUpgradeValues() {
@@ -158,27 +172,12 @@ $(document).ready(() => {
         userStrength[2] += upgradePercent * (deadliftLevel + (deadliftTotalLevel));
         userStrength[3] += upgradePercent * (rowLevel + (rowTotalLevel));
 
-        // for (let i = 0; i < userStrength.length; i++) {
-        //     userStrength[i] = Math.round(userStrength[i] * 100) / 100;
-        // }
-
         userReps += daysTotalLevel;
-        // console.log("Tick", userStrength[0]);
+
+
+       
         refreshScreen();
         updateStats();
-        // console.log({
-        //     daysRepsCost,
-        //     strengthRepsCost,
-        //     preRepsCost,
-        //     benchRepsCost,
-        //     benchSquatCost,
-        //     squatRepsCost,
-        //     squatRowCost,
-        //     deadliftRepsCost,
-        //     deadliftBenchCost,
-        //     rowRepsCost,
-        //     rowDeadliftCost
-        // });
     };
 
   
@@ -192,7 +191,12 @@ $(document).ready(() => {
 
     // Then wait for a form submit to either OPEN cheat menu, or cancel.
     $('#cheat-toggle').click(function () {
+    console.log(sessionStorage.getItem("adminGranted"));
     if (!$('.cheat-menu-container').hasClass('open')) {
+        if (sessionStorage.getItem("adminGranted") === "true") {
+            $('.cheat-menu-container').addClass('open');
+            return;
+        }
         $('#user-login-popup').removeClass('hidden-popup');
     } else {
         $('.cheat-menu-container').removeClass('open');
@@ -265,22 +269,24 @@ $(document).ready(() => {
             case "strengthUp":
                 if (userReps < strengthRepsCost) {
                     break;
+                } else {
+                    userReps -= strengthRepsCost;
+                    strengthLevel += 1;
+                    strengthTotalLevel = strengthLevel + (strengthPrest * $("#strength").attr("max"));
+                    strengthRepsCost = strengthRepsCost = Math.floor(strengthBaseCost * Math.pow(addedCost, strengthTotalLevel));
+                    clickReps = Math.max(clickReps +1, Math.floor(clickBase * Math.pow(clickGrowth, strengthTotalLevel)));
+                    recalcUpgradeValues();
+                    refreshScreen();
+                    break;
                 }
-                userReps -= strengthRepsCost;
-                strengthLevel += 1;
-                strengthTotalLevel = strengthLevel + (strengthPrest * $("#strength").attr("max"));
-                strengthRepsCost = strengthRepsCost = Math.floor(strengthBaseCost * Math.pow(addedCost, strengthTotalLevel));
-                clickReps = Math.max(clickReps +1, Math.floor(clickBase * Math.pow(clickGrowth, strengthTotalLevel)));
-                recalcUpgradeValues();
-                refreshScreen();
-                break;
             case "preworkoutUp":
                 if (userReps < preBaseCost) {
                     break;
+                } else {
+                    userReps -= preBaseCost;
+                    preCharges = 200;
+                    break;
                 }
-                userReps -= preBaseCost;
-                preCharges = 200;
-                break;
             case "benchUp":
                 if ((userStrength[1] >= benchSquatCost) && (userReps >= benchRepsCost)) {
                     userReps -= benchRepsCost;
@@ -338,6 +344,7 @@ $(document).ready(() => {
                 console.log(upgradeChoice);
                 break;
         }
+        checkUpgradeStates();
 
         switch (true) {
             case (totalLevel < 20):

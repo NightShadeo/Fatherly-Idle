@@ -455,6 +455,13 @@ header .user-data p {
   background: #0b5ed7;
 }
 
+/* UI CSS to grey out upgrades when they can't be afforded */
+
+.upgrade-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 /* Keyframes for the falling barbells animation */
 
 @keyframes barbellsFall {

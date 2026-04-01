@@ -100,7 +100,8 @@ function validateUserLogin() {
     let passwordInput = $('#login-password').val();
 
     if (usernameInput === userCredentials.admin.username && passwordInput === userCredentials.admin.password) {
-        adminAccess = true;
+        // adminAccess = true;
+        sessionStorage.setItem("adminGranted", "true");
         return true;
     } else {
         alert("Invalid Credentials");
